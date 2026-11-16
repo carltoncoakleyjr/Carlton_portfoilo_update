@@ -15,9 +15,132 @@ import {
   GraduationCap,
   Trophy,
   HelpCircle,
-  Sparkles
+  Sparkles,
+  Play
 } from "lucide-react";
 import { useState, useEffect } from "react";
+
+interface ArticleSection {
+  type: "paragraph" | "heading" | "quote";
+  text: string;
+}
+
+interface PortfolioItem {
+  type: "video" | "written" | "photography";
+  categoryLabel?: string;
+  id?: string;
+  title: string;
+  date: string;
+  description: string;
+  link?: string;
+  videoSrc?: string;
+  isVertical?: boolean;
+  thumbnail?: string;
+  customThumbnail?: "first-to-11";
+  details?: {
+    stakes: string;
+    viewerHelp: string;
+    uniqueAngle: string;
+  };
+  content?: {
+    byline: string;
+    date: string;
+    location: string;
+    lead: string;
+    photoCaption?: string;
+    body: ArticleSection[];
+  };
+}
+
+function FirstTo11Graphic() {
+  return (
+    <div className="w-full h-full bg-[#141414] relative flex items-center justify-center overflow-hidden transition-transform duration-700 group-hover:scale-105">
+      {/* Subtle radial glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.14)_0%,rgba(18,18,18,0.96)_72%)]" />
+      <svg
+        viewBox="0 0 400 300"
+        className="w-full h-full relative z-10"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-label="First to 11 ping-pong match illustration"
+      >
+        {/* Table outline & center net */}
+        <rect
+          x="36"
+          y="42"
+          width="328"
+          height="216"
+          rx="4"
+          stroke="#D4AF37"
+          strokeOpacity="0.28"
+          strokeWidth="1.5"
+        />
+        <line
+          x1="200"
+          y1="42"
+          x2="200"
+          y2="258"
+          stroke="#D4AF37"
+          strokeOpacity="0.45"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+        />
+        <line
+          x1="36"
+          y1="150"
+          x2="364"
+          y2="150"
+          stroke="#FFFFFF"
+          strokeOpacity="0.08"
+          strokeWidth="1"
+        />
+
+        {/* Ball trajectory arc */}
+        <path
+          d="M118 168 Q 200 84 282 138"
+          stroke="#D4AF37"
+          strokeOpacity="0.55"
+          strokeWidth="1.5"
+          strokeDasharray="5 5"
+        />
+
+        {/* Left Paddle */}
+        <g transform="translate(106 162) rotate(-28)">
+          <rect x="-5" y="22" width="10" height="32" rx="3" fill="#D4AF37" fillOpacity="0.7" />
+          <ellipse cx="0" cy="0" rx="28" ry="31" fill="#1E1E1E" stroke="#D4AF37" strokeWidth="2.5" />
+          <ellipse cx="0" cy="0" rx="22" ry="25" stroke="#D4AF37" strokeOpacity="0.35" strokeWidth="1" />
+        </g>
+
+        {/* Right Paddle */}
+        <g transform="translate(294 146) rotate(28)">
+          <rect x="-5" y="22" width="10" height="32" rx="3" fill="#D4AF37" fillOpacity="0.7" />
+          <ellipse cx="0" cy="0" rx="28" ry="31" fill="#1E1E1E" stroke="#D4AF37" strokeWidth="2.5" />
+          <ellipse cx="0" cy="0" rx="22" ry="25" stroke="#D4AF37" strokeOpacity="0.35" strokeWidth="1" />
+        </g>
+
+        {/* Ping-Pong Ball */}
+        <circle cx="200" cy="112" r="10" fill="#F5F0E1" />
+        <circle cx="197" cy="109" r="3" fill="#FFFFFF" />
+        <circle cx="200" cy="112" r="15" stroke="#D4AF37" strokeOpacity="0.35" strokeWidth="1" />
+
+        {/* Scoreboard Tag */}
+        <rect x="138" y="210" width="124" height="28" rx="2" fill="#121212" stroke="#D4AF37" strokeOpacity="0.4" />
+        <text
+          x="200"
+          y="228"
+          textAnchor="middle"
+          fill="#D4AF37"
+          fontSize="11"
+          fontWeight="700"
+          letterSpacing="3"
+          fontFamily="sans-serif"
+        >
+          FIRST TO 11
+        </text>
+      </svg>
+    </div>
+  );
+}
 
 const NAV_LINKS = [
   { name: "About", href: "#about" },
@@ -25,14 +148,23 @@ const NAV_LINKS = [
   { name: "Contact", href: "#contact" },
 ];
 
-const PORTFOLIO_ITEMS = [
+const PORTFOLIO_ITEMS: PortfolioItem[] = [
+  {
+    type: "video",
+    categoryLabel: "Social Video",
+    title: "Times Square Eats: J-School Vox Pop",
+    date: "October 30, 2026",
+    description: "A quick social vox pop asking Craig Newmark Graduate School of Journalism students where they like to eat around Times Square—featuring Class of 2026 student Amanda Barret on her go-to Midtown Thai spot, Sai Tong Thai.",
+    videoSrc: "./assets/aistudio/Amanda_Voxpop_Final_Cut_2521c442.mp4",
+    isVertical: true,
+  },
   {
     type: "video",
     title: "First to 11",
     date: "July 13, 2026",
     description: "An observational video feature following two beginners in a casual ping-pong match inside PingPod in Downtown Brooklyn. What starts as lighthearted fun builds into a tense, competitive game, capturing connection and release through candid, unscripted moments.",
     link: "https://drive.google.com/file/d/1EB1iF3qZ_7xAG-I4GPHPMulQ-d0jLOrt/view?usp=share_link",
-    thumbnail: "https://drive.google.com/thumbnail?id=1EB1iF3qZ_7xAG-I4GPHPMulQ-d0jLOrt&sz=w1000",
+    customThumbnail: "first-to-11",
     details: {
       stakes: "Although the match is casual, the stakes build through the game itself: who will reach 11 first? As beginners, each missed shot, lucky point, and small victory raises the tension.",
       viewerHelp: "This story highlights how everyday movement, like playing a simple game, can hold narrative weight and meaning. It encourages viewers to see competition and connection between friends/individuals, making the experience feel engaging and cinematic.",
@@ -325,8 +457,8 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [selectedGallery, setSelectedGallery] = useState<string | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const [selectedArticle, setSelectedArticle] = useState<any | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<PortfolioItem | null>(null);
+  const [selectedArticle, setSelectedArticle] = useState<PortfolioItem | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -341,109 +473,127 @@ export default function App() {
   return (
     <div className={`min-h-screen font-sans bg-[#121212] text-[#e5e5e5] ${(selectedGallery || selectedVideo || selectedArticle) ? 'overflow-hidden' : ''}`}>
       {/* Video Modal */}
-      {selectedVideo && (() => {
-        const activeVideoItem = PORTFOLIO_ITEMS.find(item => item.link === selectedVideo);
-        return (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[100] bg-black/95 overflow-y-auto flex flex-col items-center py-12 px-4 md:px-8"
+      {selectedVideo && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 z-[100] bg-black/95 overflow-y-auto flex flex-col items-center py-12 px-4 md:px-8"
+          onClick={() => setSelectedVideo(null)}
+        >
+          {/* Close button */}
+          <button 
+            onClick={() => setSelectedVideo(null)}
+            className="fixed top-6 right-6 md:top-8 md:right-8 z-[110] bg-black/50 hover:bg-black/80 text-white/50 hover:text-[#D4AF37] p-2 rounded-full transition-all border border-white/5"
+            aria-label="Close video player"
           >
-            {/* Close button */}
-            <button 
-              onClick={() => setSelectedVideo(null)}
-              className="fixed top-6 right-6 md:top-8 md:right-8 z-[110] bg-black/50 hover:bg-black/80 text-white/50 hover:text-[#D4AF37] p-2 rounded-full transition-all border border-white/5"
-            >
-              <X size={28} />
-            </button>
+            <X size={28} />
+          </button>
 
-            <div className="w-full max-w-5xl mt-8 space-y-8">
-              {/* Video Player */}
+          <div
+            className="w-full max-w-5xl mt-8 space-y-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Video Player */}
+            {selectedVideo.videoSrc ? (
+              <div
+                className={`${
+                  selectedVideo.isVertical
+                    ? "w-full max-w-[380px] aspect-[9/16] mx-auto"
+                    : "w-full aspect-video"
+                } bg-black rounded-sm overflow-hidden shadow-2xl border border-white/10`}
+              >
+                <video
+                  src={selectedVideo.videoSrc}
+                  className="w-full h-full object-contain bg-black"
+                  controls
+                  autoPlay
+                  playsInline
+                />
+              </div>
+            ) : selectedVideo.link ? (
               <div className="w-full aspect-video bg-black rounded-sm overflow-hidden shadow-2xl border border-white/10">
                 <iframe 
-                  src={getEmbedUrl(selectedVideo)} 
+                  src={getEmbedUrl(selectedVideo.link)} 
                   className="w-full h-full" 
                   allow="autoplay; encrypted-media"
                   allowFullScreen
                 ></iframe>
               </div>
+            ) : null}
 
-              {/* YouTube style info section */}
-              {activeVideoItem && (
-                <div className="space-y-8 bg-[#121212]/80 p-6 md:p-8 rounded-sm border border-white/5 backdrop-blur-sm">
-                  {/* Title & Date */}
-                  <div className="border-b border-white/10 pb-6">
-                    <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-3">
-                      <span>Video Story</span>
-                      <span className="text-gray-600">•</span>
-                      <span>{activeVideoItem.date}</span>
+            {/* YouTube style info section */}
+            <div className="space-y-8 bg-[#121212]/80 p-6 md:p-8 rounded-sm border border-white/5 backdrop-blur-sm">
+              {/* Title & Date */}
+              <div className="border-b border-white/10 pb-6">
+                <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-3">
+                  <span>{selectedVideo.categoryLabel || "Video Story"}</span>
+                  <span className="text-gray-600">•</span>
+                  <span>{selectedVideo.date}</span>
+                </div>
+                <h2 className="font-sans text-3xl md:text-5xl font-black text-white tracking-tight">
+                  {selectedVideo.title}
+                </h2>
+              </div>
+
+              {/* Description */}
+              <div className="space-y-4">
+                <h3 className="text-sm uppercase tracking-widest font-bold text-gray-400">Background & Synopsis</h3>
+                <p className="text-gray-300 leading-relaxed text-base md:text-lg font-light">
+                  {selectedVideo.description}
+                </p>
+              </div>
+
+              {/* Optional rich metadata like Stakes, Help, Angle */}
+              {selectedVideo.details && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-white/10">
+                  {/* Stakes */}
+                  <div className="bg-[#1a1a1a] p-6 rounded-sm border border-white/5 space-y-3">
+                    <div className="flex items-center gap-2 text-[#D4AF37]">
+                      <Trophy size={18} />
+                      <h4 className="text-xs uppercase tracking-widest font-bold">The Stakes</h4>
                     </div>
-                    <h2 className="font-sans text-3xl md:text-5xl font-black text-white tracking-tight">
-                      {activeVideoItem.title}
-                    </h2>
-                  </div>
-
-                  {/* Description */}
-                  <div className="space-y-4">
-                    <h3 className="text-sm uppercase tracking-widest font-bold text-gray-400">Background & Synopsis</h3>
-                    <p className="text-gray-300 leading-relaxed text-base md:text-lg font-light">
-                      {activeVideoItem.description}
+                    <p className="text-gray-400 text-sm leading-relaxed font-light">
+                      {selectedVideo.details.stakes}
                     </p>
                   </div>
 
-                  {/* Optional rich metadata like Stakes, Help, Angle */}
-                  {activeVideoItem.details && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-white/10">
-                      {/* Stakes */}
-                      <div className="bg-[#1a1a1a] p-6 rounded-sm border border-white/5 space-y-3">
-                        <div className="flex items-center gap-2 text-[#D4AF37]">
-                          <Trophy size={18} />
-                          <h4 className="text-xs uppercase tracking-widest font-bold">The Stakes</h4>
-                        </div>
-                        <p className="text-gray-400 text-sm leading-relaxed font-light">
-                          {activeVideoItem.details.stakes}
-                        </p>
-                      </div>
-
-                      {/* How it helps */}
-                      <div className="bg-[#1a1a1a] p-6 rounded-sm border border-white/5 space-y-3">
-                        <div className="flex items-center gap-2 text-[#D4AF37]">
-                          <HelpCircle size={18} />
-                          <h4 className="text-xs uppercase tracking-widest font-bold">Viewer Impact</h4>
-                        </div>
-                        <p className="text-gray-400 text-sm leading-relaxed font-light">
-                          {activeVideoItem.details.viewerHelp}
-                        </p>
-                      </div>
-
-                      {/* Unique Angle */}
-                      <div className="bg-[#1a1a1a] p-6 rounded-sm border border-white/5 space-y-3">
-                        <div className="flex items-center gap-2 text-[#D4AF37]">
-                          <Sparkles size={18} />
-                          <h4 className="text-xs uppercase tracking-widest font-bold">Unique Angle</h4>
-                        </div>
-                        <p className="text-gray-400 text-sm leading-relaxed font-light">
-                          {activeVideoItem.details.uniqueAngle}
-                        </p>
-                      </div>
+                  {/* How it helps */}
+                  <div className="bg-[#1a1a1a] p-6 rounded-sm border border-white/5 space-y-3">
+                    <div className="flex items-center gap-2 text-[#D4AF37]">
+                      <HelpCircle size={18} />
+                      <h4 className="text-xs uppercase tracking-widest font-bold">Viewer Impact</h4>
                     </div>
-                  )}
+                    <p className="text-gray-400 text-sm leading-relaxed font-light">
+                      {selectedVideo.details.viewerHelp}
+                    </p>
+                  </div>
 
-                  {/* Back to portfolio button */}
-                  <div className="pt-6 border-t border-white/10 flex justify-end">
-                    <button 
-                      onClick={() => setSelectedVideo(null)}
-                      className="text-[#D4AF37] hover:text-white uppercase tracking-widest text-xs font-bold transition-colors flex items-center gap-2"
-                    >
-                      Close Player <ChevronRight size={14} />
-                    </button>
+                  {/* Unique Angle */}
+                  <div className="bg-[#1a1a1a] p-6 rounded-sm border border-white/5 space-y-3">
+                    <div className="flex items-center gap-2 text-[#D4AF37]">
+                      <Sparkles size={18} />
+                      <h4 className="text-xs uppercase tracking-widest font-bold">Unique Angle</h4>
+                    </div>
+                    <p className="text-gray-400 text-sm leading-relaxed font-light">
+                      {selectedVideo.details.uniqueAngle}
+                    </p>
                   </div>
                 </div>
               )}
+
+              {/* Back to portfolio button */}
+              <div className="pt-6 border-t border-white/10 flex justify-end">
+                <button 
+                  onClick={() => setSelectedVideo(null)}
+                  className="text-[#D4AF37] hover:text-white uppercase tracking-widest text-xs font-bold transition-colors flex items-center gap-2"
+                >
+                  Close Player <ChevronRight size={14} />
+                </button>
+              </div>
             </div>
-          </motion.div>
-        );
-      })()}
+          </div>
+        </motion.div>
+      )}
 
       {/* Photo Gallery Modal */}
       {selectedArticle && (
@@ -772,8 +922,8 @@ export default function App() {
                 onClick={() => {
                   if (item.type === 'photography' && item.id) {
                     setSelectedGallery(item.id);
-                  } else if (item.type === 'video' && item.link) {
-                    setSelectedVideo(item.link);
+                  } else if (item.type === 'video' && (item.videoSrc || item.link)) {
+                    setSelectedVideo(item);
                   } else if (item.type === 'written') {
                     if (item.content) {
                       setSelectedArticle(item);
@@ -783,31 +933,62 @@ export default function App() {
                   }
                 }}
               >
-                <div className="aspect-[4/3] overflow-hidden relative">
-                  <img 
-                    src={item.thumbnail} 
-                    alt={item.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0"
-                    referrerPolicy="no-referrer"
-                  />
+                <div className="aspect-[4/3] overflow-hidden relative bg-[#141414]">
+                  {item.customThumbnail === "first-to-11" ? (
+                    <FirstTo11Graphic />
+                  ) : item.videoSrc && !item.thumbnail ? (
+                    <video
+                      src={`${item.videoSrc}#t=0.5`}
+                      muted
+                      playsInline
+                      preload="metadata"
+                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 grayscale opacity-75 group-hover:opacity-100 group-hover:grayscale-0"
+                    />
+                  ) : (
+                    <img 
+                      src={item.thumbnail} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0"
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                  {item.videoSrc && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-14 h-14 rounded-full bg-black/70 border border-[#D4AF37]/60 flex items-center justify-center text-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-black group-hover:scale-110 transition-all duration-300 shadow-xl">
+                        <Play size={22} className="ml-0.5 fill-current" />
+                      </div>
+                    </div>
+                  )}
                   <div className="absolute top-4 right-4 bg-[#D4AF37]/90 backdrop-blur-sm p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-black">
                     {item.type === 'video' ? <Video size={18} /> : item.type === 'photography' ? <Camera size={18} /> : <FileText size={18} />}
                   </div>
                 </div>
                 <div className="p-8">
-                  <div className="flex justify-between items-start mb-1">
+                  <div className="flex justify-between items-start mb-1 gap-3">
                     <h3 className="font-sans text-xl font-bold leading-tight text-[#D4AF37]">{item.title}</h3>
-                    {item.link && (
+                    {item.videoSrc ? (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedVideo(item);
+                        }}
+                        aria-label={`Watch ${item.title}`}
+                        className="text-gray-500 hover:text-[#D4AF37] transition-colors shrink-0"
+                      >
+                        <Play size={18} />
+                      </button>
+                    ) : item.link ? (
                       <a 
                         href={item.link} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-gray-500 hover:text-[#D4AF37] transition-colors"
+                        className="text-gray-500 hover:text-[#D4AF37] transition-colors shrink-0"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <ArrowUpRight size={20} />
                       </a>
-                    )}
+                    ) : null}
                   </div>
                   {item.date && (
                     <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-4">
@@ -818,7 +999,7 @@ export default function App() {
                     {item.description}
                   </p>
                   <div className="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-500">
-                    <span className="mr-2">{item.type}</span>
+                    <span className="mr-2">{item.categoryLabel || item.type}</span>
                     <ChevronRight size={12} />
                   </div>
                 </div>
